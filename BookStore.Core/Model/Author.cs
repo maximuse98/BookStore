@@ -12,5 +12,6 @@ namespace BookStore.Core.Model
         public string Name { get; set; }
         [JsonIgnore]
         public int Id { get; set; }
+        public IEnumerable<Book> Books { get; set;}
     }
 }
