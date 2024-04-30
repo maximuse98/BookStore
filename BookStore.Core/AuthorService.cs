@@ -13,6 +13,11 @@ namespace BookStore.Core
             this.respository = repository;
         }
 
+        public async Task<IEnumerable<Author>> GetAllAuthors()
+        {
+            return await respository.GetAll();
+        }
+
         public async Task<Author> GetAuthor(int id)
         {
             Author author = await respository.Get(id);

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,24 +21,44 @@ namespace BookStore.Core.Repository
             this.ConnectionString = configuration.GetConnectionString("BookStore");
         }
 
+        public async Task<IEnumerable<Author>> GetAll()
+        {
+            using SqlConnection connection = new SqlConnection(ConnectionString);
+
+            string query = "SELECT Id, Name, Description FROM dbo.Authors";
+
+            var parameters = new DynamicParameters();
+
+            return await connection.QueryAsync<Author>(query, parameters);
+        }
+
         public async Task<Author> Get(int id)
         {
             using SqlConnection connection = new SqlConnection(ConnectionString);
 
-            string query = "SELECT * from dbo.Authors WHERE Id = @id";
+            string query = "SELECT Name, Description from dbo.Authors WHERE Id = @id";
+            string booksQuery = "SELECT bo.* FROM dbo.Books bo JOIN dbo.Authors a ON a.Id = bo.AuthorId WHERE a.Id = @id"; 
 
             var parameters = new DynamicParameters();
 
             parameters.Add("@id", id);
+            try
+            {
+                Author author = await connection.QueryFirstAsync<Author>(query, parameters);
+                //author.Books = new List<Book>();d
+                author.Books = await connection.QueryAsync<Book>(booksQuery, parameters);
 
-            Author author = await connection.QueryFirstOrDefaultAsync(query, parameters);
-
-            return author;
+                return author;
+            }
+            catch (Exception ex) 
+            {
+                throw;    
+            }
         }
 
         public async Task Add(string name)
         {
-            SqlConnection connection = new SqlConnection(ConnectionString);
+            using SqlConnection connection = new SqlConnection(ConnectionString);
 
             string query = "insert into Authors values(@Name)";
 
@@ -46,8 +67,6 @@ namespace BookStore.Core.Repository
             parameters.Add("@Name", name);
 
             await connection.QueryFirstOrDefaultAsync(query, parameters);
-
-
         }
 
         public async Task Update(int id, string name)

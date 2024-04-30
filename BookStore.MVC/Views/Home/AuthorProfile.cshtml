@@ -1,0 +1,19 @@
+﻿@using BookStore.Core.Model
+
+@model Author
+@{
+    ViewData["Title"] = Model.Name + " profile";
+}
+
+<h1>@Model.Name</h1>
+
+<p>@Model.Description</p>
+
+@if(Model.Books.Any())
+{
+    <h2>Books</h2>
+    @foreach(Book book in Model.Books)
+    {
+        <p>@book.Name</p>
+    }
+}

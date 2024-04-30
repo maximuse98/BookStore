@@ -1,0 +1,39 @@
+﻿@using BookStore.Core.Model
+
+@model IEnumerable<Author>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@* <div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div> *@
+
+<style>
+    p {
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        color:dimgrey;
+    }
+</style>
+
+<div class="text-center">
+    <h1>Authors</h1>
+</div>
+
+<table>
+    @foreach(var author in Model)
+    {
+        <tr>
+            <td>
+                <p>@author.Name</p>
+            </td>
+            <td>
+                <p>@author.Description</p>
+            </td>
+            <td>
+                <input class="btn-primary" style="border-radius: 10%; width: 50px; height: 40px;" type="button" value="Info" onclick="@("window.location.href='" + @Url.Action("AuthorProfile", "Home", new { authorId = author.Id }) + "'");" />
+            </td>
+        </tr>
+    }
+</table>
