@@ -25,7 +25,7 @@ namespace BookStore.Core.Repository
         {
             using SqlConnection connection = new SqlConnection(ConnectionString);
 
-            string query = "SELECT Id, Name FROM dbo.Authors";
+            string query = "SELECT Id, Name, Description FROM dbo.Authors";
 
             var parameters = new DynamicParameters();
 
@@ -36,8 +36,8 @@ namespace BookStore.Core.Repository
         {
             using SqlConnection connection = new SqlConnection(ConnectionString);
 
-            string query = "SELECT Name from dbo.Authors WHERE Id = @id";
-            string booksQuery = "SELECT b.* FROM dbo.Books bo JOIN dbo.Authors a ON a.Id = b.AuthorId WHERE a.Id = @id"; 
+            string query = "SELECT Name, Description from dbo.Authors WHERE Id = @id";
+            string booksQuery = "SELECT bo.* FROM dbo.Books bo JOIN dbo.Authors a ON a.Id = bo.AuthorId WHERE a.Id = @id"; 
 
             var parameters = new DynamicParameters();
 

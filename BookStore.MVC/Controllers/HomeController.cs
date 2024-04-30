@@ -21,6 +21,12 @@ namespace BookStore.MVC.Controllers
             return View(authors);
         }
 
+        public async Task<IActionResult> AuthorProfile(int authorId)
+        {
+            Author author = await authorService.GetAuthor(authorId);
+            return View(author);
+        }
+
         public IActionResult Privacy()
         {
             return View();
