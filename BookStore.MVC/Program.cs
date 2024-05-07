@@ -1,5 +1,5 @@
-using BookStore.Core.Repository;
-using BookStore.Core;
+using BookStore.Core.Service;
+using BookStore.Entity.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +8,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<AuthorService>();
 builder.Services.AddSingleton<AuthorRepository>();
+
+builder.Services.AddSingleton<BookService>();
+builder.Services.AddSingleton<BookRepository>();
 
 var app = builder.Build();
 

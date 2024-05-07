@@ -1,4 +1,4 @@
-﻿using BookStore.Core.Model;
+﻿using BookStore.Entity.Dapper.Entities;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Core.Repository
+namespace BookStore.Entity.Repository
 {
     public class AuthorRepository
     {
@@ -21,7 +21,7 @@ namespace BookStore.Core.Repository
             this.ConnectionString = configuration.GetConnectionString("BookStore");
         }
 
-        public async Task<IEnumerable<Author>> GetAll()
+        public async Task<IEnumerable<AuthorEntity>> GetAll()
         {
             using SqlConnection connection = new SqlConnection(ConnectionString);
 
@@ -29,25 +29,20 @@ namespace BookStore.Core.Repository
 
             var parameters = new DynamicParameters();
 
-            return await connection.QueryAsync<Author>(query, parameters);
+            return await connection.QueryAsync<AuthorEntity>(query, parameters);
         }
 
-        public async Task<Author> Get(int id)
+        public async Task<AuthorEntity> Get(int id)
         {
             using SqlConnection connection = new SqlConnection(ConnectionString);
 
             string query = "SELECT Name, Description from dbo.Authors WHERE Id = @id";
-            string booksQuery = "SELECT bo.* FROM dbo.Books bo JOIN dbo.Authors a ON a.Id = bo.AuthorId WHERE a.Id = @id"; 
-
             var parameters = new DynamicParameters();
-
             parameters.Add("@id", id);
+
             try
             {
-                Author author = await connection.QueryFirstAsync<Author>(query, parameters);
-                //author.Books = new List<Book>();d
-                author.Books = await connection.QueryAsync<Book>(booksQuery, parameters);
-
+                AuthorEntity author = await connection.QueryFirstAsync<AuthorEntity>(query, parameters);
                 return author;
             }
             catch (Exception ex) 

@@ -1,9 +1,9 @@
-﻿using BookStore.Core.Model;
+﻿using BookStore.Entity.Dapper.Entities;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
-namespace BookStore.Core.Repository
+namespace BookStore.Entity.Repository
 {
     public class BookRepository
     {
@@ -14,7 +14,7 @@ namespace BookStore.Core.Repository
             this.connectionString = configuration.GetConnectionString("BookStore");
         }
 
-        public async Task<Book> Get(int id)
+        public async Task<BookEntity> Get(int id)
         {
             // 1. Initiate connection
             using var connection = new SqlConnection(connectionString);
@@ -24,9 +24,29 @@ namespace BookStore.Core.Repository
             var parameters = new { id };
 
             // 3. Get data
-            Book book = await connection.QueryFirstOrDefaultAsync<Book>(query, parameters);
+            BookEntity book = await connection.QueryFirstOrDefaultAsync<BookEntity>(query, parameters);
 
             return book;
+        }
+
+        public async Task<IEnumerable<BookEntity>> GetByAuthorId(int authorId)
+        {
+            using SqlConnection connection = new SqlConnection(connectionString);
+
+            string booksQuery = "SELECT bo.* FROM dbo.Books bo JOIN dbo.Authors a ON a.Id = bo.AuthorId WHERE a.Id = @id";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@id", authorId);
+
+            try
+            {
+                IEnumerable<BookEntity> books = await connection.QueryAsync<BookEntity>(booksQuery, parameters);
+                return books;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task Add(string name, string description, string genre)

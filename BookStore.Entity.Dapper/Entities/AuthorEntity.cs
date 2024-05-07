@@ -5,14 +5,12 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace BookStore.Core.Model
+namespace BookStore.Entity.Dapper.Entities
 {
-    public class Author
+    public class AuthorEntity
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        [JsonIgnore]
-        public int Id { get; set; }
-        public List<Book> Books { get; set;}
     }
 }

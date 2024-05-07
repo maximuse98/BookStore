@@ -1,5 +1,5 @@
-using BookStore.Core;
-using BookStore.Core.Repository;
+using BookStore.Core.Service;
+using BookStore.Entity.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 

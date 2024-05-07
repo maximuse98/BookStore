@@ -1,5 +1,5 @@
-using BookStore.Core;
 using BookStore.Core.Model;
+using BookStore.Core.Service;
 using BookStore.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
