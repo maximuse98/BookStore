@@ -29,7 +29,17 @@ namespace BookStore.Core.Repository
             return book;
         }
 
-        public async Task Add(string name, string description, string genre)
+        public async Task<IEnumerable<Book>> GetByGenre(int genreId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            string query = "SELECT * FROM dbo.Books WHERE GenreId = @genreId";
+            var parameters = new { genreId };
+
+            return await connection.QueryAsync<Book>(query, parameters);
+        }
+
+        public async Task Add(string name, string description, int genreId)
         {
             // 1. Initiate connection
             using var connection = new SqlConnection(connectionString);
@@ -41,13 +51,13 @@ namespace BookStore.Core.Repository
             var parameters = new DynamicParameters();
             parameters.Add("@name", name);
             parameters.Add("@description", description);
-            parameters.Add("@genre", genre);
+            parameters.Add("@genre", genreId);
 
             // 4. Exec query
             await connection.QueryAsync(query, parameters);
         }
 
-        public async Task Update(int id, string name, string description, string genre)
+        public async Task Update(int id, string name, string description, int genreId)
         {
             // 1. Initiate connection
             using var connection = new SqlConnection(connectionString);
@@ -60,7 +70,7 @@ namespace BookStore.Core.Repository
             parameters.Add("@id", id);
             parameters.Add("@name", name);
             parameters.Add("@description", description);
-            parameters.Add("@genre", genre);
+            parameters.Add("@genre", genreId);
 
             // 4. Exec query
             await connection.QueryAsync(query, parameters);

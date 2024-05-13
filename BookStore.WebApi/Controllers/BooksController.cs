@@ -22,7 +22,7 @@ namespace BookStore.WebApi.Controllers
         {
             try
             {
-                await bookService.CreateBook(book.Name, book.Description, book.Genre);
+                await bookService.CreateBook(book.Name, book.Description, book.GenreId);
                 return Ok();
             }
             catch

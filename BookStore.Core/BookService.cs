@@ -18,9 +18,9 @@ namespace BookStore.Core
             this.repository = repository;
         }
 
-        public async Task CreateBook(string name, string description, string genre)
+        public async Task CreateBook(string name, string description, int genreId)
         {
-            await repository.Add(name, description, genre);
+            await repository.Add(name, description, genreId);
         }
 
         public async Task<Book> GetBook(int id)
@@ -34,11 +34,11 @@ namespace BookStore.Core
             //return book == null ? book : throw new Exception("No book founded");
         }
 
-        public async Task UpdateBook(int id, string name, string description, string genre)
+        public async Task UpdateBook(int id, string name, string description, int genreId)
         { 
             try
             {
-                await repository.Update(id, name, description, genre);
+                await repository.Update(id, name, description, genreId);
             }
             catch (Exception ex)
             {

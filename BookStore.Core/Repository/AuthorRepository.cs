@@ -37,7 +37,7 @@ namespace BookStore.Core.Repository
             using SqlConnection connection = new SqlConnection(ConnectionString);
 
             string query = "SELECT Name, Description from dbo.Authors WHERE Id = @id";
-            string booksQuery = "SELECT bo.* FROM dbo.Books bo JOIN dbo.Authors a ON a.Id = bo.AuthorId WHERE a.Id = @id"; 
+            string booksQuery = "SELECT * FROM dbo.Books WHERE AuthorId = @id"; 
 
             var parameters = new DynamicParameters();
 

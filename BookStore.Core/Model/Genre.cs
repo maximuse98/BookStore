@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BookStore.Core.Model
 {
-    public class Book
+    public class Genre
     {
-        [JsonIgnore]
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public int GenreId { get; set; }
-        public int AuthorId { get; set; }
+        public IEnumerable<Book> Books { get; set;}
     }
 }

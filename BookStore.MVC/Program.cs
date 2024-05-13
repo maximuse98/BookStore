@@ -8,6 +8,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<AuthorService>();
 builder.Services.AddSingleton<AuthorRepository>();
+builder.Services.AddSingleton<GenreService>();
+builder.Services.AddSingleton<GenreRepository>();
 
 var app = builder.Build();
 
@@ -29,5 +31,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();

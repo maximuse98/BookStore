@@ -1,0 +1,28 @@
+﻿@using BookStore.Core.Model
+
+@model Genre 
+
+<style>
+    p {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif color:dimgrey;
+    }
+</style>
+
+<div class="text-center">
+    <h1>@Model.Name</h1>
+</div>
+
+<table>
+    @foreach (var book in Model.Books)
+    {
+        <tr>
+            <td>
+                <p>@book.Name</p>
+            </td>
+
+@*             <td>
+                <input class="btn-primary" style="border-radius: 10%; width: 50px; height: 40px;" type="button" value="Info" onclick="@("window.location.href='" + @Url.Action("GenreInfo", "Genre", new { genreId = genre.Id }) + "'");" />
+            </td> *@
+        </tr>
+    }
+</table>
